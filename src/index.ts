@@ -71,8 +71,9 @@ export {
   NavItemBadge,
 } from "./sidebar"
 
-// Icons — explicit re-exports (export * breaks Next.js 14 SWC with mixed const + re-exports)
-export { ICON_DEFAULTS } from "./icons"
+// Icon defaults — isolated in own module for Next.js 14 SWC compatibility
+export { ICON_DEFAULTS } from "./icon-defaults"
+// Icon components — explicit re-exports (export * breaks Next.js 14 SWC)
 export {
   DashboardIcon,
   UsersIcon,
