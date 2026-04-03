@@ -1,10 +1,8 @@
-import { type LucideProps } from "lucide-react"
-
 // === Default icon props (canonical for the ecosystem) ===
 export const ICON_DEFAULTS = {
   className: "w-4 h-4 shrink-0",
   strokeWidth: 1.5,
-} as const satisfies Partial<LucideProps>
+} as const
 
 // === Navigation icons ===
 export { LayoutDashboard as DashboardIcon } from "lucide-react"
