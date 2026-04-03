@@ -70,3 +70,6 @@ export {
   NavItemIcon,
   NavItemBadge,
 } from "./sidebar"
+
+// Icons
+export * from "./icons"

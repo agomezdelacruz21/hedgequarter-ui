@@ -1,0 +1,46 @@
+import { type LucideProps } from "lucide-react"
+
+// === Default icon props (canonical for the ecosystem) ===
+export const ICON_DEFAULTS = {
+  className: "w-4 h-4 shrink-0",
+  strokeWidth: 1.5,
+} as const satisfies Partial<LucideProps>
+
+// === Navigation icons ===
+export { LayoutDashboard as DashboardIcon } from "lucide-react"
+export { Users as UsersIcon } from "lucide-react"
+export { FileText as DocumentIcon } from "lucide-react"
+export { ArrowLeftRight as TransactionsIcon } from "lucide-react"
+export { MessageSquare as MessagesIcon } from "lucide-react"
+export { Database as LedgerIcon } from "lucide-react"
+export { Building2 as OrganizationIcon } from "lucide-react"
+export { ScrollText as AuditIcon } from "lucide-react"
+export { Search as AnalysisIcon } from "lucide-react"
+export { BarChart3 as InvestigationsIcon } from "lucide-react"
+export { Receipt as ExpensesIcon } from "lucide-react"
+export { CreditCard as PaymentsIcon } from "lucide-react"
+export { ShieldCheck as ComplianceIcon } from "lucide-react"
+export { ListChecks as ChecklistIcon } from "lucide-react"
+export { User as ProfileIcon } from "lucide-react"
+export { BarChart3 as ChartIcon } from "lucide-react"
+export { Key as KeyIcon } from "lucide-react"
+export { Lock as LockIcon } from "lucide-react"
+export { Mail as InvitationsIcon } from "lucide-react"
+
+// === Footer / utility icons ===
+export { Globe as LanguageIcon } from "lucide-react"
+export { Sun as LightModeIcon } from "lucide-react"
+export { Moon as DarkModeIcon } from "lucide-react"
+export { Settings as SettingsIcon } from "lucide-react"
+export { LogOut as SignOutIcon } from "lucide-react"
+export { PanelLeftClose as CollapseIcon } from "lucide-react"
+export { PanelLeftOpen as ExpandIcon } from "lucide-react"
+export { Menu as MenuIcon } from "lucide-react"
+export { X as CloseIcon } from "lucide-react"
+export { ChevronDown as ChevronDownIcon } from "lucide-react"
+
+// === Status icons ===
+export { AlertTriangle as WarningIcon } from "lucide-react"
+export { Clock as PendingIcon } from "lucide-react"
+export { Send as SendIcon } from "lucide-react"
+export { Banknote as BanknoteIcon } from "lucide-react"
