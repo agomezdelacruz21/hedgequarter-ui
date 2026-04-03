@@ -71,5 +71,40 @@ export {
   NavItemBadge,
 } from "./sidebar"
 
-// Icons
-export * from "./icons"
+// Icons — explicit re-exports (export * breaks Next.js 14 SWC with mixed const + re-exports)
+export { ICON_DEFAULTS } from "./icons"
+export {
+  DashboardIcon,
+  UsersIcon,
+  DocumentIcon,
+  TransactionsIcon,
+  MessagesIcon,
+  LedgerIcon,
+  OrganizationIcon,
+  AuditIcon,
+  AnalysisIcon,
+  InvestigationsIcon,
+  ExpensesIcon,
+  PaymentsIcon,
+  ComplianceIcon,
+  ChecklistIcon,
+  ProfileIcon,
+  ChartIcon,
+  KeyIcon,
+  LockIcon,
+  InvitationsIcon,
+  LanguageIcon,
+  LightModeIcon,
+  DarkModeIcon,
+  SettingsIcon,
+  SignOutIcon,
+  CollapseIcon,
+  ExpandIcon,
+  MenuIcon,
+  CloseIcon,
+  ChevronDownIcon,
+  WarningIcon,
+  PendingIcon,
+  SendIcon,
+  BanknoteIcon,
+} from "./icons"
