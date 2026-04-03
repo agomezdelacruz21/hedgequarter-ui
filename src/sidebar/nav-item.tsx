@@ -17,9 +17,9 @@ function NavItem({
       data-slot="nav-item"
       data-active={active || undefined}
       className={cn(
-        "flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground",
+        "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-xs font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground",
         active &&
-          "bg-sidebar-active text-sidebar-foreground",
+          "bg-sidebar-accent text-sidebar-foreground border-l-2 border-sidebar-primary",
         className
       )}
       {...props}
