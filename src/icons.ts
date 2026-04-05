@@ -21,6 +21,7 @@ export { BarChart3 as ChartIcon } from "lucide-react"
 export { Key as KeyIcon } from "lucide-react"
 export { Lock as LockIcon } from "lucide-react"
 export { Mail as InvitationsIcon } from "lucide-react"
+export { BookOpen as MethodologyIcon } from "lucide-react"
 
 // === Footer / utility icons ===
 export { Globe as LanguageIcon } from "lucide-react"
