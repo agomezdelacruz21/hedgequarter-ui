@@ -36,7 +36,7 @@ export { X as CloseIcon } from "lucide-react"
 export { ChevronDown as ChevronDownIcon } from "lucide-react"
 
 // === Status icons ===
-export { Handshake as CounterpartiesIcon } from "lucide-react"
+export { ContactRound as CounterpartiesIcon } from "lucide-react"
 export { AlertTriangle as WarningIcon } from "lucide-react"
 export { Clock as PendingIcon } from "lucide-react"
 export { Send as SendIcon } from "lucide-react"
