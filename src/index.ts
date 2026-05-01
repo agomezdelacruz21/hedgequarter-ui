@@ -104,6 +104,7 @@ export {
   MenuIcon,
   CloseIcon,
   ChevronDownIcon,
+  ExternalLinkIcon,
   WarningIcon,
   PendingIcon,
   SendIcon,

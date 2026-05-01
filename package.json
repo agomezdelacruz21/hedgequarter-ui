@@ -1,6 +1,6 @@
 {
   "name": "@hedgequarter/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Shared UI component library for the Hedgequarter ecosystem",
   "type": "module",

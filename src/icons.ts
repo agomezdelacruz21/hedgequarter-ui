@@ -34,6 +34,11 @@ export { PanelLeftOpen as ExpandIcon } from "lucide-react"
 export { Menu as MenuIcon } from "lucide-react"
 export { X as CloseIcon } from "lucide-react"
 export { ChevronDown as ChevronDownIcon } from "lucide-react"
+// Cross-product nav indicator. Renders the lucide ExternalLink glyph.
+// Convention: cross-product links use a smaller variant
+//   <ExternalLinkIcon {...ICON_DEFAULTS} className="w-3 h-3 opacity-60" />
+// to match the visual weight of inline link affordances.
+export { ExternalLink as ExternalLinkIcon } from "lucide-react"
 
 // === Status icons ===
 export { ContactRound as CounterpartiesIcon } from "lucide-react"
