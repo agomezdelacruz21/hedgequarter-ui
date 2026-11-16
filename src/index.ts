@@ -71,6 +71,20 @@ export {
   NavItemBadge,
 } from "./sidebar"
 
+// Product menu — the sidebar's "ecosystem" section (login unificado, fase 7)
+export {
+  ProductMenu,
+  productMenuEntries,
+  PRODUCT_MENU_LABELS,
+  HQ_PRODUCT_ORDER,
+} from "./product-menu"
+export type {
+  HqProduct,
+  ProductMenuProps,
+  ProductMenuLabels,
+  ProductMenuEntry,
+} from "./product-menu"
+
 // Icon defaults — isolated in own module for Next.js 14 SWC compatibility
 export { ICON_DEFAULTS } from "./icon-defaults"
 // Icon components — explicit re-exports (export * breaks Next.js 14 SWC)
@@ -105,6 +119,8 @@ export {
   CloseIcon,
   ChevronDownIcon,
   ExternalLinkIcon,
+  AllProductsIcon,
+  SwitchFundIcon,
   WarningIcon,
   PendingIcon,
   SendIcon,

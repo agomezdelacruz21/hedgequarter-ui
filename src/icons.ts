@@ -39,6 +39,10 @@ export { ChevronDown as ChevronDownIcon } from "lucide-react"
 //   <ExternalLinkIcon {...ICON_DEFAULTS} className="w-3 h-3 opacity-60" />
 // to match the visual weight of inline link affordances.
 export { ExternalLink as ExternalLinkIcon } from "lucide-react"
+// Product menu (sidebar "ecosystem" section): the HQ Auth launcher and
+// "switch fund" entries.
+export { Grip as AllProductsIcon } from "lucide-react"
+export { Repeat as SwitchFundIcon } from "lucide-react"
 
 // === Status icons ===
 export { ContactRound as CounterpartiesIcon } from "lucide-react"
