@@ -5,6 +5,14 @@ import * as React from "react"
 import { cn } from "./utils"
 import { ICON_DEFAULTS } from "./icon-defaults"
 import { AllProductsIcon, SwitchFundIcon } from "./icons"
+import {
+  DEFAULT_HUB_URL,
+  PRODUCT_MENU_LABELS,
+  productMenuEntries,
+  safeHref,
+  type HqProduct,
+  type ProductMenuLabels,
+} from "./product-menu-entries"
 
 /**
  * The sidebar's "ecosystem" section: jump to another hedgequarter product.
@@ -18,93 +26,17 @@ import { AllProductsIcon, SwitchFundIcon } from "./icons"
  * fresh sign-in with HQ Auth, so the fund is always resolved by HQ Auth and
  * never carried over from here. Products the person may not open are not
  * shown at all.
+ *
+ * Every `href` goes through `safeHref`: only http(s) URLs or paths starting
+ * with a single `/`; an entry with anything else is dropped.
  */
 
-export type HqProduct = "sentinel" | "trace" | "grid" | "ledger" | "admin"
-
-/** Display order — the same as HQ Auth's launcher, Admin last. */
-export const HQ_PRODUCT_ORDER: readonly HqProduct[] = ["sentinel", "trace", "grid", "ledger", "admin"]
-
-const DEFAULT_ORIGINS: Record<HqProduct, string> = {
-  sentinel: "https://sentinel.hedgequarter.com",
-  trace: "https://trace.hedgequarter.com",
-  grid: "https://grid.hedgequarter.com",
-  ledger: "https://ledger.hedgequarter.com",
-  admin: "https://admin.hedgequarter.com",
-}
-
-const DEFAULT_HUB_URL = "https://auth.hedgequarter.com/hub"
-
-const PRODUCT_NAMES: Record<HqProduct, string> = {
-  sentinel: "Sentinel",
-  trace: "Trace",
-  grid: "Grid",
-  ledger: "Ledger",
-  admin: "Admin",
-}
-
-export interface ProductMenuLabels {
-  /** Section heading (hidden when collapsed). */
-  title: string
-  /** Prefix of each product link's accessible name: "Open" → "Open Ledger". */
-  open: string
-  allProducts: string
-  switchFund: string
-}
-
-export const PRODUCT_MENU_LABELS: Record<"es" | "en", ProductMenuLabels> = {
-  es: { title: "Ecosistema", open: "Abrir", allProducts: "Todos los productos", switchFund: "Cambiar de fondo" },
-  en: { title: "Ecosystem", open: "Open", allProducts: "All products", switchFund: "Switch fund" },
-}
-
-/** HQ Auth calls Admin's client product `hq_admin`; accept both spellings. */
-function toProduct(slug: string): HqProduct | null {
-  const s = slug.trim().toLowerCase()
-  if (s === "hq_admin") return "admin"
-  return (HQ_PRODUCT_ORDER as readonly string[]).includes(s) ? (s as HqProduct) : null
-}
-
-export interface ProductMenuEntry {
-  product: HqProduct
-  name: string
-  href: string
-}
-
-/**
- * Which products the menu links to, in order: the allowed ones minus the
- * current one, Admin only for a superadmin, unknown slugs ignored. Exported
- * so hosts and tests can reason about the list without rendering.
- */
-export function productMenuEntries({
-  current,
-  products,
-  isSuperadmin = false,
-  origins,
-  productNames,
-}: {
-  current: HqProduct
-  products: readonly string[] | null | undefined
-  isSuperadmin?: boolean
-  origins?: Partial<Record<HqProduct, string>>
-  productNames?: Partial<Record<HqProduct, string>>
-}): ProductMenuEntry[] {
-  const allowed = new Set<HqProduct>()
-  for (const slug of products ?? []) {
-    const p = typeof slug === "string" ? toProduct(slug) : null
-    if (p && p !== "admin") allowed.add(p)
-  }
-  if (isSuperadmin) allowed.add("admin")
-  allowed.delete(current)
-
-  return HQ_PRODUCT_ORDER.filter((p) => allowed.has(p)).map((product) => {
-    const origin = (origins?.[product] ?? DEFAULT_ORIGINS[product]).trim().replace(/\/+$/, "")
-    return {
-      product,
-      name: productNames?.[product] ?? PRODUCT_NAMES[product],
-      href: `${origin}/auth/launch`,
-    }
-  })
-}
+export {
+  HQ_PRODUCT_ORDER,
+  PRODUCT_MENU_LABELS,
+  productMenuEntries,
+} from "./product-menu-entries"
+export type { HqProduct, ProductMenuEntry, ProductMenuLabels } from "./product-menu-entries"
 
 export interface ProductMenuProps {
   /** The product this sidebar belongs to; never listed. */
@@ -126,7 +58,10 @@ export interface ProductMenuProps {
   /** HQ Auth's launcher. Default `https://auth.hedgequarter.com/hub`. */
   hubUrl?: string
   /** Where "Switch fund" goes: the host's own sign-in start with
-   *  `prompt=select_account`. Shown only when this or `onSwitchFund` is set. */
+   *  `prompt=select_account`. Shown only when this (a valid URL/path) or
+   *  `onSwitchFund` is set. Pass it only to people with a choice — HQ Auth
+   *  shows its picker even with a single fund (claim `eligible_tenant_count`
+   *  of 2 or more). */
   switchFundHref?: string
   onSwitchFund?: () => void
   className?: string
@@ -167,7 +102,9 @@ function ProductMenu({
 }: ProductMenuProps) {
   const text = { ...PRODUCT_MENU_LABELS[locale], ...labels }
   const entries = productMenuEntries({ current, products, isSuperadmin, origins, productNames })
-  const hasSwitchFund = Boolean(switchFundHref || onSwitchFund)
+  const hubHref = safeHref(hubUrl)
+  const switchHref = safeHref(switchFundHref)
+  const hasSwitchFund = Boolean(switchHref || onSwitchFund)
 
   const label = (visible: string, accessible = visible) =>
     collapsed ? { "aria-label": accessible, title: accessible } : { title: accessible === visible ? undefined : accessible }
@@ -199,16 +136,18 @@ function ProductMenu({
             </li>
           )
         })}
-        <li>
-          <a href={hubUrl} data-entry="all-products" className={itemClass(collapsed)} {...label(text.allProducts)}>
-            <AllProductsIcon {...ICON_DEFAULTS} aria-hidden="true" />
-            {!collapsed && <span className="flex-1 truncate">{text.allProducts}</span>}
-          </a>
-        </li>
+        {hubHref && (
+          <li>
+            <a href={hubHref} data-entry="all-products" className={itemClass(collapsed)} {...label(text.allProducts)}>
+              <AllProductsIcon {...ICON_DEFAULTS} aria-hidden="true" />
+              {!collapsed && <span className="flex-1 truncate">{text.allProducts}</span>}
+            </a>
+          </li>
+        )}
         {hasSwitchFund && (
           <li>
-            {switchFundHref ? (
-              <a href={switchFundHref} data-entry="switch-fund" className={itemClass(collapsed)} {...label(text.switchFund)}>
+            {switchHref ? (
+              <a href={switchHref} data-entry="switch-fund" className={itemClass(collapsed)} {...label(text.switchFund)}>
                 <SwitchFundIcon {...ICON_DEFAULTS} aria-hidden="true" />
                 {!collapsed && <span className="flex-1 truncate">{text.switchFund}</span>}
               </a>

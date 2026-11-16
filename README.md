@@ -36,3 +36,17 @@ Each product links to its own `/auth/launch` (HQ Auth resolves the fund);
 fetches. `origins` and `hubUrl` override the production URLs for local
 development; `labels` / `productNames` override the built-in strings.
 
+- `products`: the `products` claim of the person's HQ Auth access token
+  (`hq_admin` is read as Admin; unknown slugs are ignored). Products the
+  person may not open are never shown.
+- Admin appears only with `isSuperadmin` (`global_role === "superadmin"`).
+- "Switch fund" appears only with `switchFundHref` or `onSwitchFund`. Pass it
+  only when the access token's `eligible_tenant_count` is 2 or more (missing
+  claim = 1): HQ Auth's picker shows even with a single fund.
+- URL rule: every `href` (`origins`, `hubUrl`, `switchFundHref`) must be an
+  `https:`/`http:` URL or a path starting with a single `/` (`origins`: an
+  http(s) URL). Anything else drops that entry.
+
+Tests for the pure logic (`src/product-menu-entries.ts`): `npm test`
+(Node's built-in runner, Node >= 22.18, no dependencies).
+
